@@ -135,226 +135,151 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 ## 5. Guides
 
 
-export PROJECT_NAME=hellotpuresnet50
+	export PROJECT_NAME=hellotpuresnet50
+	gcloud config set project $PROJECT_NAME
 
-gcloud config set project $PROJECT_NAME
+	ctpu up -name=zeroaitpu -tpu-size=v3-8
+	ctpu up -name=zeroaitpu -tpu-size=v2-8
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
 
-ctpu up -name=zeroaitpu -tpu-size=v3-8
+	export PROJECT_NAME=hellotpuresnet50
+	gcloud config set project $PROJECT_NAME
+	ctpu up -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
 
-ctpu up -name=zeroaitpu -tpu-size=v2-8
-
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
-
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
-
-export PROJECT_NAME=hellotpuresnet50
-
-gcloud config set project $PROJECT_NAME
-
-ctpu up -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
-
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
 
 
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
+	pip install tensorflow
+	export STORAGE_BUCKET=gs://zeroaistorage 
+	export PYTHONPATH="$PYTHONPATH:/boristown/models" 
+	cd ~/ 
+	rm -rf boristown
+	git clone https://github.com/boristown/tpu.git boristown 
+	cd boristown/models/official/resnet/
 
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
+	python resnet_main.py --train_steps=50400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=125062534 --num_eval_images=2480700 --steps_per_eval=500 --iterations_per_loop=500 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-pip install tensorflow
+	python resnet_main.py --train_steps=20400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=154034586 --num_eval_images=3480050 --steps_per_eval=1000 --iterations_per_loop=1000 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-export STORAGE_BUCKET=gs://zeroaistorage 
+	python resnet_main.py --train_steps=10200 --train_batch_size=50000 --eval_batch_size=50000 --num_train_images=154034586 --num_eval_images=3480050 --steps_per_eval=300 --iterations_per_loop=300 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-export PYTHONPATH="$PYTHONPATH:/boristown/models" 
+	python resnet_main.py --train_steps=4000 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=158399462 --num_eval_images=2833734 --steps_per_eval=50 --iterations_per_loop=200 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-cd ~/ 
+	python resnet_main.py --train_steps=6100 --train_batch_size=20000 --eval_batch_size=20000 --num_train_images=91552720 --num_eval_images=1881360 --steps_per_eval=300 --iterations_per_loop=300 --dropblock_groups="" --dropblock_keep_prob="0.9" --dropblock_size="1" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-rm -rf boristown
+	python resnet_main.py --train_steps=72261 --train_batch_size=8 --eval_batch_size=8 --num_train_images=578094 --num_eval_images=2432 --steps_per_eval=100 --iterations_per_loop=100 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="float32" --data_format="channels_last" 
 
-git clone https://github.com/boristown/tpu.git boristown 
+	python resnet_main.py --train_steps=9000 --train_batch_size=102712 --eval_batch_size=101416 --num_train_images=924432509 --num_eval_images=4346738 --steps_per_eval=450 --iterations_per_loop=450 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-cd boristown/models/official/resnet/
+	python resnet_main.py --train_steps=29031744 --train_batch_size=103680 --eval_batch_size=101832 --num_train_images=29031744 --num_eval_images=678882 --steps_per_eval=420 --iterations_per_loop=420 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-python resnet_main.py --train_steps=50400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=125062534 --num_eval_images=2480700 --steps_per_eval=500 --iterations_per_loop=500 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=20400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=154034586 --num_eval_images=3480050 --steps_per_eval=1000 --iterations_per_loop=1000 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=10200 --train_batch_size=50000 --eval_batch_size=50000 --num_train_images=154034586 --num_eval_images=3480050 --steps_per_eval=300 --iterations_per_loop=300 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=4000 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=158399462 --num_eval_images=2833734 --steps_per_eval=50 --iterations_per_loop=200 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=6100 --train_batch_size=20000 --eval_batch_size=20000 --num_train_images=91552720 --num_eval_images=1881360 --steps_per_eval=300 --iterations_per_loop=300 --dropblock_groups="" --dropblock_keep_prob="0.9" --dropblock_size="1" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=72261 --train_batch_size=8 --eval_batch_size=8 --num_train_images=578094 --num_eval_images=2432 --steps_per_eval=100 --iterations_per_loop=100 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="float32" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=9000 --train_batch_size=102712 --eval_batch_size=101416 --num_train_images=924432509 --num_eval_images=4346738 --steps_per_eval=450 --iterations_per_loop=450 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=29031744 --train_batch_size=103680 --eval_batch_size=101832 --num_train_images=29031744 --num_eval_images=678882 --steps_per_eval=420 --iterations_per_loop=420 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
-
-python resnet_main.py --train_steps=46048794 --train_batch_size=109632 --eval_batch_size=109480 --num_train_images=46048794 --num_eval_images=919672 --steps_per_eval=420 --iterations_per_loop=420 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
+	python resnet_main.py --train_steps=46048794 --train_batch_size=109632 --eval_batch_size=109480 --num_train_images=46048794 --num_eval_images=919672 --steps_per_eval=420 --iterations_per_loop=420 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
 
-export PROJECT_NAME=hellotpuresnet50
+	export PROJECT_NAME=hellotpuresnet50
+	gcloud config set project $PROJECT_NAME
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
+	export STORAGE_BUCKET=gs://zeroaistorage 
+	capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/resnet
+	tensorboard --logdir=${STORAGE_BUCKET}/resnet
 
-gcloud config set project $PROJECT_NAME
+	ctpu delete -name=zeroaitpu
 
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
+	sudo apt install unzip
 
-export STORAGE_BUCKET=gs://zeroaistorage 
+	export STORAGE_BUCKET=gs://zeroaistorage
 
-capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/resnet
-
-tensorboard --logdir=${STORAGE_BUCKET}/resnet
-
-ctpu delete -name=zeroaitpu
-
-sudo apt install unzip
-
-export STORAGE_BUCKET=gs://zeroaistorage
-
-unzip -n ${STORAGE_BUCKET}/6028.zip -d ${STORAGE_BUCKET}/data
-
+	unzip -n ${STORAGE_BUCKET}/6028.zip -d ${STORAGE_BUCKET}/data
 
 
 =============================================================
 
-rm -rf serving
+	rm -rf serving
+	git clone https://github.com/boristown/serving.git serving 
 
-git clone https://github.com/boristown/serving.git serving 
+	TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
 
+	sudo docker run -t --rm -p 8501:8501 \
+    	-v "$TESTDATA/saved_model_turtle5:/models/turtle5" \
+    	-e MODEL_NAME=turtle5 \
+    	tensorflow/serving &
 
-TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
+	TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
 
-
-sudo docker run -t --rm -p 8501:8501 \
-
-    -v "$TESTDATA/saved_model_turtle5:/models/turtle5" \
-    
-    -e MODEL_NAME=turtle5 \
-    
-    tensorflow/serving &
-
-TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
-
-sudo docker run -t --rm -p 8501:8501 \
-
-    -v "$TESTDATA/saved_model_turtle5:/models/turtle5" \
-    
-    -e MODEL_NAME=turtle5 \
-    
-    tensorflow/serving &
+	sudo docker run -t --rm -p 8501:8501 \
+    	-v "$TESTDATA/saved_model_turtle5:/models/turtle5" \
+    	-e MODEL_NAME=turtle5 \
+    	tensorflow/serving &
 	
-sudo systemctl restart apiturtle
+	sudo systemctl restart apiturtle
+	sudo systemctl enable apiturtle
+	sudo systemctl status apiturtle
+	sudo systemctl restart nginx
+	sudo service apiturtle restart
+	sudo service nginx restart
 
-sudo systemctl enable apiturtle
-
-sudo systemctl status apiturtle
-
-sudo systemctl restart nginx
-
-sudo service apiturtle restart
-
-sudo service nginx restart
-
-sudo docker run -t --rm -p 8501:8501 \
-
-    -v "$(pwd)/models/:/models/" tensorflow/serving \
-    
-    --model_config_file=/models/models.config \
-    
-    --model_config_file_poll_wait_seconds=60
+	sudo docker run -t --rm -p 8501:8501 \
+    	-v "$(pwd)/models/:/models/" tensorflow/serving \
+    	--model_config_file=/models/models.config \
+    	--model_config_file_poll_wait_seconds=60
 	
-sudo docker run \
+	sudo docker run \
+	-p 8501:8501 \
+	--mount type=bind,source=/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/,target=/models/ \
+	-t tensorflow/serving \
+	--model_config_file=/models/models.config \
+	--model_config_file_poll_wait_seconds=600
+	sudo nano /models/models.config
+	sudo nano serving/tensorflow_serving/servables/tensorflow/testdata/models.config
 
--p 8501:8501 \
-
---mount type=bind,source=/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/,target=/models/ \
-
--t tensorflow/serving \
-
---model_config_file=/models/models.config \
-
---model_config_file_poll_wait_seconds=600
-
-sudo nano /models/models.config
-
-sudo nano serving/tensorflow_serving/servables/tensorflow/testdata/models.config
-
-model_config_list {
-
-  config {
+	model_config_list {
+	  config {
+	    name: 'turtle3'
+	    base_path: '/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtle3/'
+	    model_platform: 'tensorflow'
+	  }
   
-    name: 'turtle3'
-    
-    base_path: '/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtle3/'
-    
-    model_platform: 'tensorflow'
-  }
-  
-  config {
-  
-    name: 'turtle5'
-    
-    base_path: '/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtle5/'
-    
-    model_platform: 'tensorflow'
-    
-  }
-  
-}
+	  config {
+	    name: 'turtle5'
+    	    base_path: '/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtle5/'
+    	    model_platform: 'tensorflow'
+  	  }
+	}
 
-model_config_list {
+	model_config_list {
+	  config {
+	    name: 'turtle7'
+	    base_path: '/models/saved_model_turtle7/'
+	    model_platform: 'tensorflow'
+	  }
+  
+	  config {
+	    name: 'turtle8'
+	    base_path: '/models/saved_model_turtle8/'
+	    model_platform: 'tensorflow'
+	  }
+	}
 
-  config {
-  
-    name: 'turtle7'
-    
-    base_path: '/models/saved_model_turtle7/'
-    
-    model_platform: 'tensorflow'
-    
-  }
-  
-  config {
-  
-    name: 'turtle8'
-    
-    base_path: '/models/saved_model_turtle8/'
-    
-    model_platform: 'tensorflow'
-    
-  }
-  
-}
-
-sudo ln -s /serving /models
-
-sudo certbot certonly --nginx
+	sudo ln -s /serving /models
+	sudo certbot certonly --nginx
 
 ==========================================================V2-512
 
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-512 -zone=us-central1-a
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-512 -zone=us-central1-a
+	export STORAGE_BUCKET=gs://zeroaistorage 
+	export PYTHONPATH="$PYTHONPATH:/boristown/models" 
+	cd ~/ 
+	rm -rf boristown  
+	git clone https://github.com/boristown/tpu.git boristown 
+	cd boristown/models/official/resnet/
 
-export STORAGE_BUCKET=gs://zeroaistorage 
+	python resnet_main.py --num_cores=512 --train_steps=4417748 --train_batch_size=4000000 --eval_batch_size=4000000 --num_train_images=4417748 --num_eval_images=4417748 --steps_per_eval=200 --iterations_per_loop=200 --resnet_depth=50 --data_dir=${STORAGE_BUCKET}/data44216 --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last"
 
-export PYTHONPATH="$PYTHONPATH:/boristown/models" 
-
-cd ~/ 
-
-rm -rf boristown  
-
-git clone https://github.com/boristown/tpu.git boristown 
-
-cd boristown/models/official/resnet/
-
-python resnet_main.py --num_cores=512 --train_steps=4417748 --train_batch_size=4000000 --eval_batch_size=4000000 --num_train_images=4417748 --num_eval_images=4417748 --
-steps_per_eval=200 --iterations_per_loop=200 --resnet_depth=50 --data_dir=${STORAGE_BUCKET}/data44216 --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last"
-
-ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-512 -zone=us-central1-a
-
-export STORAGE_BUCKET=gs://zeroaistorage 
-
-capture_tpu_profile --tpu=${TPU_NAME} --logdir=${model_dir}/resnet 
-
-tensorboard --logdir=${STORAGE_BUCKET}/resnet 
-
-ctpu delete -name=zeroaitpu
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-512 -zone=us-central1-a
+	export STORAGE_BUCKET=gs://zeroaistorage 
+	capture_tpu_profile --tpu=${TPU_NAME} --logdir=${model_dir}/resnet 
+	tensorboard --logdir=${STORAGE_BUCKET}/resnet 
+	ctpu delete -name=zeroaitpu
