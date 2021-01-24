@@ -136,29 +136,44 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 
 
 export PROJECT_NAME=hellotpuresnet50
+
 gcloud config set project $PROJECT_NAME
 
 ctpu up -name=zeroaitpu -tpu-size=v3-8
+
 ctpu up -name=zeroaitpu -tpu-size=v2-8
+
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
+
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
 
 export PROJECT_NAME=hellotpuresnet50
+
 gcloud config set project $PROJECT_NAME
+
 ctpu up -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
+
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
+
 
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
 
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
 
 pip install tensorflow
+
 export STORAGE_BUCKET=gs://zeroaistorage 
+
 export PYTHONPATH="$PYTHONPATH:/boristown/models" 
+
 cd ~/ 
+
 rm -rf boristown
+
 git clone https://github.com/boristown/tpu.git boristown 
+
 cd boristown/models/official/resnet/
+
 python resnet_main.py --train_steps=50400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=125062534 --num_eval_images=2480700 --steps_per_eval=500 --iterations_per_loop=500 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
 python resnet_main.py --train_steps=20400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=154034586 --num_eval_images=3480050 --steps_per_eval=1000 --iterations_per_loop=1000 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
@@ -179,106 +194,165 @@ python resnet_main.py --train_steps=46048794 --train_batch_size=109632 --eval_ba
 
 
 export PROJECT_NAME=hellotpuresnet50
+
 gcloud config set project $PROJECT_NAME
+
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
+
 export STORAGE_BUCKET=gs://zeroaistorage 
+
 capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/resnet
+
 tensorboard --logdir=${STORAGE_BUCKET}/resnet
 
 ctpu delete -name=zeroaitpu
 
 sudo apt install unzip
+
 export STORAGE_BUCKET=gs://zeroaistorage
+
 unzip -n ${STORAGE_BUCKET}/6028.zip -d ${STORAGE_BUCKET}/data
 
 
+
 =============================================================
+
 rm -rf serving
+
 git clone https://github.com/boristown/serving.git serving 
 
-# Location of demo models
+
 TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
 
-# Start TensorFlow Serving container and open the REST API port
+
 sudo docker run -t --rm -p 8501:8501 \
+
     -v "$TESTDATA/saved_model_turtle5:/models/turtle5" \
+    
     -e MODEL_NAME=turtle5 \
+    
     tensorflow/serving &
 
 TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
 
 sudo docker run -t --rm -p 8501:8501 \
+
     -v "$TESTDATA/saved_model_turtle5:/models/turtle5" \
+    
     -e MODEL_NAME=turtle5 \
+    
     tensorflow/serving &
 	
 sudo systemctl restart apiturtle
+
 sudo systemctl enable apiturtle
+
 sudo systemctl status apiturtle
 
 sudo systemctl restart nginx
 
 sudo service apiturtle restart
+
 sudo service nginx restart
 
 sudo docker run -t --rm -p 8501:8501 \
+
     -v "$(pwd)/models/:/models/" tensorflow/serving \
+    
     --model_config_file=/models/models.config \
+    
     --model_config_file_poll_wait_seconds=60
 	
 sudo docker run \
+
 -p 8501:8501 \
+
 --mount type=bind,source=/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/,target=/models/ \
+
 -t tensorflow/serving \
+
 --model_config_file=/models/models.config \
+
 --model_config_file_poll_wait_seconds=600
 
 sudo nano /models/models.config
+
 sudo nano serving/tensorflow_serving/servables/tensorflow/testdata/models.config
 
 model_config_list {
+
   config {
+  
     name: 'turtle3'
+    
     base_path: '/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtle3/'
+    
     model_platform: 'tensorflow'
   }
+  
   config {
+  
     name: 'turtle5'
+    
     base_path: '/home/boristown/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtle5/'
+    
     model_platform: 'tensorflow'
+    
   }
+  
 }
 
 model_config_list {
+
   config {
+  
     name: 'turtle7'
+    
     base_path: '/models/saved_model_turtle7/'
+    
     model_platform: 'tensorflow'
+    
   }
+  
   config {
+  
     name: 'turtle8'
+    
     base_path: '/models/saved_model_turtle8/'
+    
     model_platform: 'tensorflow'
+    
   }
+  
 }
 
 sudo ln -s /serving /models
 
 sudo certbot certonly --nginx
+
 ==========================================================V2-512
 
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-512 -zone=us-central1-a
 
 export STORAGE_BUCKET=gs://zeroaistorage 
+
 export PYTHONPATH="$PYTHONPATH:/boristown/models" 
+
 cd ~/ 
+
 rm -rf boristown  
+
 git clone https://github.com/boristown/tpu.git boristown 
+
 cd boristown/models/official/resnet/
-python resnet_main.py --num_cores=512 --train_steps=4417748 --train_batch_size=4000000 --eval_batch_size=4000000 --num_train_images=4417748 --num_eval_images=4417748 --steps_per_eval=200 --iterations_per_loop=200 --resnet_depth=50 --data_dir=${STORAGE_BUCKET}/data44216 --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last"
+
+python resnet_main.py --num_cores=512 --train_steps=4417748 --train_batch_size=4000000 --eval_batch_size=4000000 --num_train_images=4417748 --num_eval_images=4417748 --
+steps_per_eval=200 --iterations_per_loop=200 --resnet_depth=50 --data_dir=${STORAGE_BUCKET}/data44216 --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last"
 
 ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-512 -zone=us-central1-a
+
 export STORAGE_BUCKET=gs://zeroaistorage 
+
 capture_tpu_profile --tpu=${TPU_NAME} --logdir=${model_dir}/resnet 
 
 tensorboard --logdir=${STORAGE_BUCKET}/resnet 
