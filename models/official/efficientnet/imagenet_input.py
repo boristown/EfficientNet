@@ -173,6 +173,35 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     }
 
     parsed = tf.parse_single_example(value, keys_to_features)
+    
+    #Begin insert Boristown 20210130
+    max_prices = parsed['max_prices']
+    min_prices = parsed['min_prices']
+    c_prices = parsed['c_prices']
+
+    prices = tf.stack([max_prices, c_prices, min_prices], axis=1)
+    prices = tf.reshape(prices, [PRICE_COUNT,DIMENSION_COUNT,CHANNEL_COUNT])
+    
+    # The labels will be in range [1,1000], 0 is reserved for background
+    label = tf.cast(
+        tf.reshape(parsed['label'], shape=[]), dtype=tf.int32)
+
+    if not self.include_background_label:
+      # Subtract 1 if the background label is discarded.
+      label -= 1
+      
+    if not self.use_bfloat16:
+      prices = tf.cast(prices, tf.float32)
+    else:
+      prices = tf.cast(prices, tf.bfloat16)
+      
+    onehot_label = tf.one_hot(label, self.num_label_classes) #5 Labels: plunging falling shock rising skyrocketing
+    
+    return prices, onehot_label
+    #End insert Boristown 20210130
+    
+    #Begin Comment Boristown 20210130
+    '''
     image_bytes = tf.reshape(parsed['image/encoded'], shape=[])
 
     image = self.image_preprocessing_fn(
@@ -196,6 +225,8 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     onehot_label = tf.one_hot(label, self.num_label_classes)
 
     return image, onehot_label
+    '''
+    #End Comment Boristown 20210130
 
   @abc.abstractmethod
   def make_source_dataset(self, index, num_hosts):
