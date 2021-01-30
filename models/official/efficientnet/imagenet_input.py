@@ -178,9 +178,9 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     #End Comment Boristown 20210130
     #Begin Insert Boristown 20210130
     keys_to_features = {
-        'max_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*self.image_size*self.image_size),
-        'min_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*self.image_size*self.image_size),
-        'c_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*self.image_size*self.image_size),
+        'max_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*(self.image_size*self.image_size)),
+        'min_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*(self.image_size*self.image_size)),
+        'c_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*(self.image_size*self.image_size)),
         'label' : tf.FixedLenFeature([], tf.int64, -1),
     }
     #End Insert Boristown 20210130
@@ -209,7 +209,6 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
       prices = tf.cast(prices, tf.bfloat16)
       
     onehot_label = tf.one_hot(label, self.num_label_classes) #5 Labels: plunging falling shock rising skyrocketing
-    
     return prices, onehot_label
     #End insert Boristown 20210130
     
@@ -458,7 +457,7 @@ class ImageNetInput(ImageNetTFExampleInput):
 
     def fetch_dataset(filename):
       buffer_size = 8 * 1024 * 1024  # 8 MiB per file
-      dataset = tf.data.TFRecordDataset(filename, buffer_size=buffer_size)
+      dataset = tf.data.TFRecordDataset(filename, compression_type="ZLIB", buffer_size=buffer_size)
       return dataset
 
     # Read the data from disk in parallel
