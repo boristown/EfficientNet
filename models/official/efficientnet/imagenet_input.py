@@ -180,7 +180,7 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     c_prices = parsed['c_prices']
 
     prices = tf.stack([max_prices, c_prices, min_prices], axis=1)
-    prices = tf.reshape(prices, [PRICE_COUNT,DIMENSION_COUNT,CHANNEL_COUNT])
+    prices = tf.reshape(prices, [self.image_size,self.image_size,3])
     
     # The labels will be in range [1,1000], 0 is reserved for background
     label = tf.cast(
