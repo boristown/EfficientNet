@@ -167,10 +167,23 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     Returns:
       Returns a tuple of (image, label) from the TFExample.
     """
+    
+    #Begin Comment Boristown 20210130
+    '''
     keys_to_features = {
         'image/encoded': tf.FixedLenFeature((), tf.string, ''),
         'image/class/label': tf.FixedLenFeature([], tf.int64, -1),
     }
+    '''
+    #End Comment Boristown 20210130
+    #Begin Insert Boristown 20210130
+    keys_to_features = {
+        'max_prices' : tf.FixedLenFeature([fix_price_len], tf.float32, default_value=[0.0]*fix_price_len),
+        'min_prices' : tf.FixedLenFeature([fix_price_len], tf.float32, default_value=[0.0]*fix_price_len),
+        'c_prices' : tf.FixedLenFeature([fix_price_len], tf.float32, default_value=[0.0]*fix_price_len),
+        'label' : tf.FixedLenFeature([], tf.int64, -1),
+    }
+    #End Insert Boristown 20210130
 
     parsed = tf.parse_single_example(value, keys_to_features)
     
