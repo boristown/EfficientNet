@@ -178,9 +178,9 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     #End Comment Boristown 20210130
     #Begin Insert Boristown 20210130
     keys_to_features = {
-        'max_prices' : tf.FixedLenFeature([fix_price_len], tf.float32, default_value=[0.0]*fix_price_len),
-        'min_prices' : tf.FixedLenFeature([fix_price_len], tf.float32, default_value=[0.0]*fix_price_len),
-        'c_prices' : tf.FixedLenFeature([fix_price_len], tf.float32, default_value=[0.0]*fix_price_len),
+        'max_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*self.image_size*self.image_size),
+        'min_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*self.image_size*self.image_size),
+        'c_prices' : tf.FixedLenFeature([self.image_size*self.image_size], tf.float32, default_value=[0.0]*self.image_size*self.image_size),
         'label' : tf.FixedLenFeature([], tf.int64, -1),
     }
     #End Insert Boristown 20210130
