@@ -134,9 +134,10 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 
 ## 5. Guides
 
-
 	export PROJECT_NAME=hellotpuresnet50
 	gcloud config set project $PROJECT_NAME
+
+	---
 
 	ctpu up -name=zeroaitpu -tpu-size=v3-8
 	ctpu up -name=zeroaitpu -tpu-size=v2-8
@@ -147,17 +148,36 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	gcloud config set project $PROJECT_NAME
 	ctpu up -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
 	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-a --project $PROJECT_NAME
-
-	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8 --project $PROJECT_NAME
 	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
 
+	---
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8 -zone=us-central1-b --project $PROJECT_NAME --tf-version=2.4.0
+	Y
 
+
+	pip install --upgrade pip
 	pip install tensorflow
-	export STORAGE_BUCKET=gs://zeroaistorage 
-	export PYTHONPATH="$PYTHONPATH:/boristown/models" 
-	cd ~/ 
+	export STORAGE_BUCKET=gs://zeroaistorage
+	export PYTHONPATH="$PYTHONPATH:/boristown/models"
+	cd ~/
 	rm -rf boristown
+	git clone https://github.com/boristown/EfficientNet.git boristown
+	cd boristown/models/official/efficientnet/
+
+	python3 main.py --mode="train_and_eval" --train_steps=300000  --train_batch_size=50000  --eval_batch_size=50000 --num_train_images=39080266  --num_eval_images=2105048  --steps_per_eval=500 --iterations_per_loop=500 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
+	
+	export PROJECT_NAME=hellotpuresnet50
+	gcloud config set project $PROJECT_NAME
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8 -zone=us-central1-b --project $PROJECT_NAME --tf-version=2.4.0
+	export STORAGE_BUCKET=gs://zeroaistorage
+	capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/efficientnet
+	tensorboard --logdir=${STORAGE_BUCKET}/efficientnet
+
+	---
+
 	git clone https://github.com/boristown/tpu.git boristown 
+
 	cd boristown/models/official/resnet/
 
 	python resnet_main.py --train_steps=50400 --train_batch_size=40000 --eval_batch_size=40000 --num_train_images=125062534 --num_eval_images=2480700 --steps_per_eval=500 --iterations_per_loop=500 --dropblock_groups="" --dropblock_keep_prob="1" --dropblock_size="1" --resnet_depth=201 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
@@ -178,13 +198,15 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 
 	python resnet_main.py --train_steps=46048794 --train_batch_size=109632 --eval_batch_size=109480 --num_train_images=46048794 --num_eval_images=919672 --steps_per_eval=420 --iterations_per_loop=420 --dropblock_groups="" --dropblock_keep_prob="0.5" --dropblock_size="3" --resnet_depth=169 --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/resnet --tpu=${TPU_NAME} --precision="bfloat16" --data_format="channels_last" 
 
-
 	export PROJECT_NAME=hellotpuresnet50
 	gcloud config set project $PROJECT_NAME
 	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
 	export STORAGE_BUCKET=gs://zeroaistorage 
 	capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/resnet
 	tensorboard --logdir=${STORAGE_BUCKET}/resnet
+
+	---
+
 
 	ctpu delete -name=zeroaitpu
 
@@ -195,7 +217,7 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	unzip -n ${STORAGE_BUCKET}/6028.zip -d ${STORAGE_BUCKET}/data
 
 
-=============================================================
+	---
 
 	rm -rf serving
 	git clone https://github.com/boristown/serving.git serving 
