@@ -165,7 +165,7 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	git clone https://github.com/boristown/EfficientNet.git boristown
 	cd boristown/models/official/efficientnet/
 
-	python3 main.py --mode="train_and_eval" --train_steps=300000  --train_batch_size=50000  --eval_batch_size=50000 --num_train_images=135629956  --num_eval_images=8083734  --steps_per_eval=500 --iterations_per_loop=500 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
+	python3 main.py --mode="train_and_eval" --train_steps=600000  --train_batch_size=100000  --eval_batch_size=100000 --num_train_images=135629956  --num_eval_images=8083734  --steps_per_eval=600 --iterations_per_loop=600 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
 	
 	export PROJECT_NAME=hellotpuresnet50
 	gcloud config set project $PROJECT_NAME
