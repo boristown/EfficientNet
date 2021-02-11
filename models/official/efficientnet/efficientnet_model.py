@@ -192,7 +192,8 @@ class MBConvBlock(tf.keras.layers.Layer):
       self._space2depth = tf.layers.Conv2D(
           self._block_args.input_filters,
           kernel_size=[2, 2],
-          strides=[2, 2],
+          #strides=[2, 2],
+          strides=[1, 1],
           kernel_initializer=conv_kernel_initializer,
           padding='same',
           data_format=self._data_format,
@@ -413,7 +414,8 @@ class MBConvBlockWithoutDepthwise(MBConvBlock):
       # Expansion phase:
       self._expand_conv = tf.layers.Conv2D(
           filters,
-          kernel_size=[3, 3],
+          #kernel_size=[3, 3],
+          kernel_size=[2, 2],
           strides=self._block_args.strides,
           kernel_initializer=conv_kernel_initializer,
           padding='same',
@@ -524,8 +526,10 @@ class Model(tf.keras.Model):
     # Stem part.
     self._conv_stem = utils.Conv2D(
         filters=round_filters(32, self._global_params, self._fix_head_stem),
-        kernel_size=[3, 3],
-        strides=[2, 2],
+        #kernel_size=[3, 3],
+        kernel_size=[2, 2],
+        #strides=[2, 2],
+        strides=[1, 1],
         kernel_initializer=conv_kernel_initializer,
         padding='same',
         data_format=self._global_params.data_format,
