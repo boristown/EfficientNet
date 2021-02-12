@@ -175,7 +175,14 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	tensorboard --logdir=${STORAGE_BUCKET}/efficientnet
 
 	---
-
+	psftp
+	open 47.94.154.29
+	root
+	put D:/TPU/output/saved_model_turtlex/1608641662.zip /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex/1608641662.zip
+	---
+	cd /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex
+	unzip -d 1608641662 1608641662.zip
+	
 	git clone https://github.com/boristown/tpu.git boristown 
 
 	cd boristown/models/official/resnet/
