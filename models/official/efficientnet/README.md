@@ -165,7 +165,8 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	git clone https://github.com/boristown/EfficientNet.git boristown
 	cd boristown/models/official/efficientnet/
 
-	python3 main.py --mode="train_and_eval" --train_steps=900000  --train_batch_size=20000  --eval_batch_size=20000 --num_train_images=309995750  --num_eval_images=20046578  --steps_per_eval=1000 --iterations_per_loop=200 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
+	python3 main.py --mode="train_and_eval" --train_steps=900000  --train_batch_size=5000  --eval_batch_size=5000 --num_train_images=309995750  --num_eval_images=20046578  --steps_per_eval=500 --iterations_per_loop=500 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
+	python3 main.py --mode="train_and_eval" --train_steps=900000  --train_batch_size=5000  --eval_batch_size=5000 --num_train_images=385833  --num_eval_images=44279  --steps_per_eval=500 --iterations_per_loop=500 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
 	
 	export PROJECT_NAME=hellotpuresnet50
 	gcloud config set project $PROJECT_NAME
@@ -178,10 +179,10 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	psftp
 	open 47.94.154.29
 	root
-	put D:/TPU/output/saved_model_turtlex/1608641662.zip /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex/1608641662.zip
+	put D:/TPU/output/saved_model_turtlex/1608641665.zip /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex/1608641665.zip
 	---
 	cd /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex
-	unzip -d 1608641662 1608641662.zip
+	unzip -d 1608641665 1608641665.zip
 	
 	git clone https://github.com/boristown/tpu.git boristown 
 
@@ -208,7 +209,7 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	export PROJECT_NAME=hellotpuresnet50
 	gcloud config set project $PROJECT_NAME
 	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8
-	export STORAGE_BUCKET=gs://zeroaistorage 
+	export STORAGE_BUCKET=gs://zeroaistorage
 	capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/resnet
 	tensorboard --logdir=${STORAGE_BUCKET}/resnet
 
