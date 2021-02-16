@@ -36,7 +36,8 @@ def efficientnet_params(model_name):
   """Get efficientnet params based on model name."""
   params_dict = {
       # (width_coefficient, depth_coefficient, resolution, dropout_rate)
-      'efficientnet-bx': (0.8, 0.8, 15, 0.0), #Turtle X Insert BorisTown 20210130
+      #'efficientnet-bx': (0.8, 0.8, 15, 0.0), #Turtle X Insert BorisTown 20210130
+      'efficientnet-bx': (0.025, 0.025, 15, 0.0), #Turtle X Insert BorisTown 20210130
       'efficientnet-b0': (1.0, 1.0, 224, 0.2),
       'efficientnet-b1': (1.0, 1.1, 240, 0.2),
       'efficientnet-b2': (1.1, 1.2, 260, 0.3),
@@ -178,10 +179,10 @@ def swish(features, use_native=True, use_hard=False):
 #]
 
 _DEFAULT_BLOCKS_ARGS = [
-    'r1_k2_s11_e1_i32_o16_se0.25', 'r2_k2_s11_e6_i16_o24_se0.25',
-    'r2_k2_s11_e6_i24_o40_se0.25', 'r3_k2_s11_e6_i40_o80_se0.25',
-    'r3_k2_s11_e6_i80_o112_se0.25', 'r4_k2_s11_e6_i112_o192_se0.25',
-    'r1_k2_s11_e6_i192_o320_se0.25',
+    'r1_k3_s11_e1_i16_o24_se0.00', 'r2_k2_s22_e6_i24_o36_se0.00',
+    'r2_k2_s22_e6_i36_o40_se0.00', 'r3_k2_s22_e6_i40_o80_se0.00',
+    'r3_k2_s11_e6_i80_o112_se0.00', 'r4_k2_s22_e6_i112_o192_se0.00',
+    'r1_k2_s11_e6_i192_o320_se0.00',
 ]
 
 def efficientnet(width_coefficient=None,

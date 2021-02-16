@@ -153,6 +153,7 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 
 	---
 	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-b --project $PROJECT_NAME --tf-version=2.4.0
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8 -zone=us-central1-b --project $PROJECT_NAME --tf-version=2.4.0
 	Y
 
 
@@ -166,11 +167,13 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	cd boristown/models/official/efficientnet/
 
 	python3 main.py --mode="train_and_eval" --train_steps=900000  --train_batch_size=5000  --eval_batch_size=5000 --num_train_images=309995750  --num_eval_images=20046578  --steps_per_eval=500 --iterations_per_loop=500 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
-	python3 main.py --mode="train_and_eval" --train_steps=900000  --train_batch_size=5000  --eval_batch_size=5000 --num_train_images=385833  --num_eval_images=44279  --steps_per_eval=500 --iterations_per_loop=500 --num_label_classes=10 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
+	python3 main.py --mode="train_and_eval" --train_steps=200  --train_batch_size=3000  --eval_batch_size=3000 --num_train_images=349436  --num_eval_images=39654  --steps_per_eval=200 --iterations_per_loop=200 --num_label_classes=12 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
+	python3 main.py --mode="train_and_eval" --train_steps=1300  --train_batch_size=3000  --eval_batch_size=3000 --num_train_images=349436  --num_eval_images=36160  --steps_per_eval=100 --iterations_per_loop=100 --num_label_classes=12 --tpu=${TPU_NAME} --data_dir=${STORAGE_BUCKET}/data --model_dir=${STORAGE_BUCKET}/efficientnet --model_name="efficientnet-bx" --input_image_size=15 --data_format="channels_last"
 	
 	export PROJECT_NAME=hellotpuresnet50
 	gcloud config set project $PROJECT_NAME
 	ctpu up -preemptible -name=zeroaitpu -tpu-size=v3-8 -zone=us-central1-b --project $PROJECT_NAME --tf-version=2.4.0
+	ctpu up -preemptible -name=zeroaitpu -tpu-size=v2-8 -zone=us-central1-b --project $PROJECT_NAME --tf-version=2.4.0
 	export STORAGE_BUCKET=gs://zeroaistorage
 	capture_tpu_profile --tpu=${TPU_NAME} --logdir=${STORAGE_BUCKET}/efficientnet
 	tensorboard --logdir=${STORAGE_BUCKET}/efficientnet
@@ -179,10 +182,10 @@ For more instructions, please refer to our tutorial: https://cloud.google.com/tp
 	psftp
 	open 47.94.154.29
 	root
-	put D:/TPU/output/saved_model_turtlex/1608641665.zip /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex/1608641665.zip
+	put D:/TPU/output/saved_model_turtlex/1608641667.zip /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex/1608641667.zip
 	---
 	cd /root/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_turtlex
-	unzip -d 1608641665 1608641665.zip
+	unzip -d 1608641667 1608641667.zip
 	
 	git clone https://github.com/boristown/tpu.git boristown 
 

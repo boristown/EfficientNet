@@ -196,8 +196,7 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     prices = tf.reshape(prices, [self.image_size,self.image_size,3])
     
     # The labels will be in range [1,1000], 0 is reserved for background
-    label = tf.cast(
-        tf.reshape(parsed['label'], shape=[]), dtype=tf.int32)
+    label = tf.cast(tf.reshape(parsed['label'], shape=[]), dtype=tf.int32)
 
     if not self.include_background_label:
       # Subtract 1 if the background label is discarded.
@@ -207,7 +206,9 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
       prices = tf.cast(prices, tf.float32)
     else:
       prices = tf.cast(prices, tf.bfloat16)
-      
+    logging.info('self.image_size:' + str(self.image_size))
+    logging.info('self.num_label_classes:' + str(self.num_label_classes))
+    logging.info('self.include_background_label:' + str(self.include_background_label))
     onehot_label = tf.one_hot(label, self.num_label_classes) #5 Labels: plunging falling shock rising skyrocketing
     return prices, onehot_label
     #End insert Boristown 20210130
@@ -305,6 +306,7 @@ class ImageNetTFExampleInput(six.with_metaclass(abc.ABCMeta, object)):
     if self.transpose_input:
       dataset = dataset.map(
           lambda images, labels: (tf.transpose(images, [1, 2, 3, 0]), labels),
+          #lambda images, labels: (tf.transpose(images, [1, 2, 3, 0]), tf.transpose(labels,[1,0])),
           num_parallel_calls=64)
 
     # Assign static batch size dimension

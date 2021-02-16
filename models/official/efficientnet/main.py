@@ -453,6 +453,7 @@ def model_fn(features, labels, mode, params):
       # user, this should look like regular synchronous training.
       optimizer = tf.tpu.CrossShardOptimizer(optimizer)
 
+    optimizer = tf.train.AdamOptimizer()
     # Batch normalization requires UPDATE_OPS to be added as a dependency to
     # the train operation.
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)

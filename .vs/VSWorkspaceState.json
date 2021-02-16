@@ -3,8 +3,8 @@
     "",
     "\\models",
     "\\models\\official",
-    "\\models\\official\\efficientnet"
+    "\\models\\official\\densenet"
   ],
-  "SelectedNode": "\\models\\official\\efficientnet\\train_on_cpu.bat",
+  "SelectedNode": "\\models\\official\\densenet\\densenet_model.py",
   "PreviewInSolutionExplorer": false
 }
