@@ -3,8 +3,8 @@
     "",
     "\\models",
     "\\models\\official",
-    "\\models\\official\\densenet"
+    "\\models\\official\\efficientnet"
   ],
-  "SelectedNode": "\\models\\official\\densenet\\densenet_model.py",
+  "SelectedNode": "\\models\\official\\efficientnet\\main.py",
   "PreviewInSolutionExplorer": false
 }
